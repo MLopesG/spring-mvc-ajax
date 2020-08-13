@@ -14,7 +14,7 @@
                 <p class="card-text" th:text="${promo.descricao}">sobre a promoção</p>
             </div>
             <div>
-                <h6 class="badge badge-primary" th:text="|R$ ${{promo.preco}}|">R$ 9,99</h6>
+                <h6 class="badge badge-danger" th:text="|R$ ${{promo.preco}}|">R$ 9,99</h6>
             </div>
             <div class="btn-group">
                 <button th:id="${'likes-count-' + promo.id}" type="button"

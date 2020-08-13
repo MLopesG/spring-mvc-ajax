@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 @RequestMapping("/meta")
 public class SocialMetaTagController{
 
-    @Autowired
+    @Autowired 
     private SocialMetaTagService service;
 
     @PostMapping("/info")

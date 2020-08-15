@@ -6,8 +6,8 @@ $(document).ready(function(){
 });
 
 $(window).scroll(function() {    	
-	var scrollTop = $(this).scrollTop();
-	var conteudo = $(document).height() - $(window).height();  	
+	var scrollTop = $(document).height() + $(this).scrollTop();
+	var conteudo = $(document).height() + $(window).height();  	
 	if (scrollTop >= conteudo) {
 		pageNumber++;
 		setTimeout(function(){
@@ -16,33 +16,21 @@ $(window).scroll(function() {
 	}    	
 });
 
-function loadScrollBar(pageNumber){
-    $.ajax({
-        method:'GET',
-        url: "/promocao/list/ajax",
-        data:{
-            page: pageNumber
-        },
-        beforeSend: function(){
-            $("#loader-img").show();
-        },
-        success:function(response){
-            if(response.length > 150){
-                $(".row").fadeIn(250, function(){
-                    $(this).append(response);
-                });
-            }else{
-                $("#fim-btn").show();
-                $("#loader-img").removeClass("loader");
-            }
-        },
-        error: function(){
-
-        },
-        complete: function(){
-            $("#loader-img").hide();
-        }
-    });
+function loadScrollBar(pageNumber) {	
+	$.ajax({
+		method: "GET",
+		url: "/promocao/list/ajax",
+		data: {
+			page: pageNumber
+		},
+		success: function( response ) {
+            
+            $('.row').append( $(response).hide().fadeIn(400) );   			
+		}, 
+		error: function(xhr) {
+            $("#alert").addClass("alert alert-danger").text("Ops, ocorreu um erro: " + xhr.status + "," + xhr.statusText);
+		}
+	})  
 }
 
 $(document).on("click", "button[id*='likes-btn-']", function(){
@@ -53,6 +41,48 @@ $(document).on("click", "button[id*='likes-btn-']", function(){
         url: "/promocao/like/" + id, 
         success: function(response){
             $("#likes-count-" + id).text(response);
+        },
+        error: function(xhr){
+            $("#alert").addClass("alert alert-danger").text("Ops, ocorreu um erro: " + xhr.status + "," + xhr.statusText);
+        }
+    });
+});
+
+$("#autocomplete-input").autocomplete({
+    source:function(request, response){
+        $.ajax({
+            method:"GET",
+            url:"/promocao/site",
+            data:{
+                termo: request.term
+            },
+            success: function(result){
+                response(result);
+            }
+        });
+    }
+});
+
+$("#autocomplete-submit").on("click", function(){
+    var site = $("#autocomplete-input").val();
+    
+    $.ajax({
+        method:"GET",
+        url: "/promocao/site/list",
+        data:{
+            site: site
+        },
+        beforeSend: function(){
+            pageNumber = 0;
+            $("#fim-btn").hide();
+            $(".row").fadeOut(400, function(){
+                $(this).empty();
+            });
+        },
+        success: function(response){
+            $(".row").fadeIn(250, function(){
+                $(this).append(response);
+            });
         },
         error: function(xhr){
             $("#alert").addClass("alert alert-danger").text("Ops, ocorreu um erro: " + xhr.status + "," + xhr.statusText);

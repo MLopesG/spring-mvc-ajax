@@ -29,9 +29,8 @@
                     aria-pressed="true" target="new">Ver Oferta</a>
             </div>
         </div>
-        <div class="card-footer">
-            <small class="text-muted"
-                th:text="${#temporals.format(promo.dtCadastro, 'dd/MM/yyyy')}">9 mins</small>
+        <div class="card-footer bg-danger">
+            <small class="text-white" th:text="${#temporals.format(promo.dtCadastro, 'dd/MM/yyyy')}">9 mins</small>
         </div>
     </div>
 </div>

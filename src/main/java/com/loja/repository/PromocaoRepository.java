@@ -1,5 +1,6 @@
 package com.loja.repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -14,6 +15,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface PromocaoRepository extends JpaRepository<Promocao, Long> {
+
+    @Query("select p from Promocao p where p.preco = :preco")
+    Page<Promocao> findbyPreco(@Param("preco") BigDecimal preco, Pageable pageable);
+
+    @Query("select p from Promocao p where p.titulo like %:search% or p.site like %:search% or p.categoria.titulo like %:search%")
+    Page<Promocao> findByTituloOrSiteOrCategoria(@Param("search") String search, Pageable pageable);
 
     @Query("select p from Promocao p where p.site like :site")
     Page<Promocao> findBySite(@Param("site") String  site, Pageable pageable);

@@ -5,12 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import com.loja.domain.Categoria;
 import com.loja.domain.Promocao;
+import com.loja.dto.PromocaoDTO;
 import com.loja.repository.CategoriaRepository;
 import com.loja.repository.PromocaoRepository;
+import com.loja.service.PromocaoDataTableService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -36,6 +39,51 @@ public class PromocaoController {
 
     @Autowired
     private PromocaoRepository promocaoRepository;
+
+    @GetMapping("/tabela")
+    public String showTable(){
+        return "promo-datatables";
+    }
+
+    @GetMapping("/datatables/server")
+    public ResponseEntity<?> datatables(HttpServletRequest request){
+        Map<String,Object> data = new PromocaoDataTableService().execute(promocaoRepository, request);
+        return ResponseEntity.ok(data);
+    }
+
+    @GetMapping("/delete/{id}")
+    public ResponseEntity<?> excluirPromocao(@PathVariable("id") Long id){
+        promocaoRepository.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/edit/{id}")
+    public ResponseEntity<?> editPromocao(@PathVariable("id") Long id){
+        Promocao promocao =  promocaoRepository.findById(id).get();
+        return ResponseEntity.ok(promocao);
+    }
+
+    @PostMapping("/edit")
+	public ResponseEntity<?> editarPromocao(@Valid PromocaoDTO dto, BindingResult result) {
+		if (result.hasErrors()) {			
+			Map<String, String> errors = new HashMap<>();
+			for (FieldError error : result.getFieldErrors()) {
+				errors.put(error.getField(), error.getDefaultMessage());
+			}			
+			return ResponseEntity.unprocessableEntity().body(errors);
+		}
+		
+		Promocao promo = promocaoRepository.findById(dto.getId()).get();
+		promo.setCategoria(dto.getCategoria());
+		promo.setDescricao(dto.getDescricao());
+		promo.setLinkImagem(dto.getLinkImagem());
+		promo.setPreco(dto.getPreco());
+		promo.setTitulo(dto.getTitulo());
+		
+		promocaoRepository.save(promo);
+		
+		return ResponseEntity.ok().build();
+	}
 
     @ModelAttribute("categorias")
     public List<Categoria> getCategoria(){

@@ -1,3 +1,7 @@
+*{
+	text-decoration: none;
+}
+
 .corpo {  padding-top: 2rem; }
 
 .block-img {
@@ -33,3 +37,11 @@
 	100% { transform: rotate(360deg); }
   }
 
+.page-item.active .page-link{
+	background-color: #dc3545!important;
+	border-color: #dc3545!important;
+}
+
+.table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td.dtr-control:before, table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>th.dtr-control:before{
+	background-color: #dc3545!important;
+}

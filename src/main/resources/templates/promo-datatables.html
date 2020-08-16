@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+
+	<div class="corpo" layout:fragment="corpo">
+	
+		<table id="table-server" class="table table-md display nowrap">
+		  <thead class="bg-danger text-white">
+		    <tr>
+		      <th>#</th>
+		      <th>Titulo</th>
+		      <th>Site</th>
+		      <th>Link Promoção</th>
+		      <th>Descrição</th>
+		      <th>Link Imagem</th>
+		      <th>Preço</th>
+		      <th>Likes</th>
+		      <th>Data de Cadastro</th>
+		      <th>Categoria</th>
+		    </tr>
+		  </thead>
+		</table>
+
+		<div th:replace="promo-datatables-modal :: modal-form"></div>
+		<div th:replace="promo-datatables-modal-del :: modal-delete"></div>
+        
+	</div>
+
+	<script th:src="@{/js/promo-datatables.js}" th:fragment="js"></script>
+</body>
+</html>

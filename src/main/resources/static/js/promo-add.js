@@ -82,7 +82,6 @@ $('#linkPromocao').on('change', function (){
             },
             statusCode:{
                 404: function (error){
-                    console.log(error)
                     $("#alert").addClass("alert alert-danger").text("Nenhuma informação pode ser encontrada nessa url!");
                     $("#linkImagem").attr("src", "/images/promo-dark.png");
                 }

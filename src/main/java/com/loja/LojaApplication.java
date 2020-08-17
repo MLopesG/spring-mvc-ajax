@@ -21,7 +21,7 @@ public class LojaApplication {
 		ServletRegistrationBean<DwrSpringServlet> registrationBean = 
 				new ServletRegistrationBean<>(dwrServlet, "/dwr/*");
 		
-		registrationBean.addInitParameter("debug", "true");
+		registrationBean.addInitParameter("debug", "false");
 		registrationBean.addInitParameter("activeReverseAjaxEnabled",
 										"true");
 		return registrationBean;

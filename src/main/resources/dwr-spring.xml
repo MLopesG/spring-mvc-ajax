@@ -11,4 +11,15 @@
 	<dwr:annotation-scan 
     	base-package="com.loja.web.dwr"/>    	
 	<dwr:annotation-config />    
+
+	<bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				<prop key="/util.js">DWRAlertPromocoes</prop>
+				<prop key="/engine.js">DWRAlertPromocoes</prop>
+				<prop key="/interface/**">DWRAlertPromocoes</prop>
+				<prop key="/call/**">DWRAlertPromocoes</prop>
+			</props>
+		</property>				
+	</bean>
 </beans>
